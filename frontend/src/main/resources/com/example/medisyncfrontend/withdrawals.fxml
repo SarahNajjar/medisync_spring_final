@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17.0.12"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.medisyncfrontend.Controllers.WithdrawalController"
+      prefHeight="500.0" prefWidth="700.0" spacing="0">
+
+    <!-- Top Header -->
+    <AnchorPane prefHeight="60.0" style="-fx-background-color: #64437C;">
+        <children>
+            <Label text="MediSync" layoutX="20.0" layoutY="15.0" textFill="white">
+                <font>
+                    <Font name="Cambria Bold" size="28.0"/>
+                </font>
+            </Label>
+        </children>
+    </AnchorPane>
+
+    <!-- Main Card Layout -->
+    <VBox alignment="TOP_CENTER" spacing="10" padding="20"
+          style="-fx-background-color: #f9f9f9; -fx-border-color: #cccccc; -fx-border-width: 1;">
+
+        <Label text="Withdrawals" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+        <TableView fx:id="tableWithdrawals" prefHeight="350.0" prefWidth="650.0">
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="60"/>
+                <TableColumn fx:id="colDate" text="Date" prefWidth="150"/>
+                <TableColumn fx:id="colAmount" text="Amount" prefWidth="100"/>
+                <TableColumn fx:id="colDoctorId" text="Doctor ID" prefWidth="100"/>
+                <TableColumn fx:id="colSecretary" text="Secretary" prefWidth="120"/>
+            </columns>
+        </TableView>
+
+        <HBox alignment="CENTER_RIGHT" prefWidth="650.0">
+            <Button fx:id="btnRefresh"
+                    text="Refresh"
+                    onAction="#loadWithdrawals"
+                    style="-fx-background-color: #64437C; -fx-text-fill: white; -fx-font-weight: bold;"
+                    prefWidth="100"/>
+        </HBox>
+    </VBox>
+</VBox>

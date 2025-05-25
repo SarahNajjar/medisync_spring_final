@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.medisyncfrontend.Controllers.DoctorController"
+      spacing="10" alignment="CENTER" prefWidth="800" prefHeight="600" style="-fx-padding: 20;">
+
+    <TableView fx:id="tableDoctors" prefHeight="400" prefWidth="750">
+        <columns>
+            <TableColumn fx:id="colId" text="ID" />
+            <TableColumn fx:id="colFirstName" text="First Name" />
+            <TableColumn fx:id="colLastName" text="Last Name" />
+            <TableColumn fx:id="colSpecialization" text="Specialization" />
+            <TableColumn fx:id="colPhone" text="Contact Number" />
+            <TableColumn fx:id="colPercentage" text="Percentage" />
+        </columns>
+    </TableView>
+
+    <Button fx:id="btnRefresh" text="Refresh" onAction="#loadDoctors"/>
+</VBox>

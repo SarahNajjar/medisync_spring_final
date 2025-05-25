@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17.0.12"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.example.medisyncfrontend.Controllers.DashboardController"
+            style="-fx-background-color: #f9f9f9;">
+
+    <!-- Top Header -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="10" padding="10" style="-fx-background-color: #64437C;">
+            <children>
+                <ImageView fitHeight="32" fitWidth="32">
+                    <image>
+                        <Image url="@clinic-icon.png" />
+                    </image>
+                </ImageView>
+                <Label text="MediSync Dashboard" textFill="WHITE">
+                    <font>
+                        <Font name="Arial Bold" size="20" />
+                    </font>
+                </Label>
+            </children>
+        </HBox>
+    </top>
+
+    <!-- Center Grid of Module Buttons -->
+    <center>
+        <GridPane alignment="CENTER" hgap="30" vgap="30" padding="20">
+            <children>
+                <Button fx:id="btnPatients" text="Patients" onAction="#goToPatients"
+                        style="-fx-background-color: #188956; -fx-text-fill: white;" prefWidth="180" prefHeight="40" />
+                <Button fx:id="btnDoctors" text="Doctors" onAction="#goToDoctors"
+                        style="-fx-background-color: #188956; -fx-text-fill: white;" GridPane.rowIndex="1" />
+                <Button fx:id="btnAppointments" text="Appointments" onAction="#goToAppointments"
+                        style="-fx-background-color: #188956; -fx-text-fill: white;" GridPane.columnIndex="1" />
+                <Button fx:id="btnRooms" text="Rooms" onAction="#goToRooms"
+                        style="-fx-background-color: #188956; -fx-text-fill: white;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <Button fx:id="btnWithdrawals" text="Withdrawals" onAction="#goToWithdrawals"
+                        style="-fx-background-color: #188956; -fx-text-fill: white;" GridPane.rowIndex="2" GridPane.columnSpan="2" />
+            </children>
+        </GridPane>
+    </center>
+
+</BorderPane>

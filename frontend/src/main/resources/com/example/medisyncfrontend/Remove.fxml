@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.medisyncfrontend.Controllers.RemoveController">
+    <children>
+        <AnchorPane prefHeight="500.0" prefWidth="714.0" style="-fx-background-color: #939597;">
+            <children>
+                <Label layoutX="105.0" layoutY="113.0" prefHeight="34.0" prefWidth="132.0" text="Product Name">
+                    <font>
+                        <Font name="Arial Rounded MT Bold" size="15.0" />
+                    </font>
+                </Label>
+                <Label layoutX="105.0" layoutY="213.0" prefHeight="34.0" prefWidth="150.0" text="Quantity to Remove">
+                    <font>
+                        <Font name="Arial Rounded MT Bold" size="15.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="tf_productName" layoutX="294.0" layoutY="118.0" prefHeight="26.0" prefWidth="180.0" style="-fx-background-color: #D3D3D3;" />
+                <TextField fx:id="tf_quantity" layoutX="294.0" layoutY="217.0" prefHeight="26.0" prefWidth="180.0" style="-fx-background-color: #D3D3D3;" />
+                <Label layoutX="275.0" layoutY="14.0" prefHeight="34.0" prefWidth="186.0" text="Remove Product">
+                    <font>
+                        <Font name="Arial Rounded MT Bold" size="22.0" />
+                    </font>
+                </Label>
+                <Button fx:id="button_RemoveProduct" layoutX="275.0" layoutY="326.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="150.0" style="-fx-background-color: #FED700;" text="Remove Product">
+                    <font>
+                        <Font name="Arial Rounded MT Bold" size="16.0" />
+                    </font>
+                </Button>
+                <Button fx:id="button_back" layoutX="26.0" layoutY="437.0" mnemonicParsing="false" prefHeight="16.0" prefWidth="91.0" style="-fx-background-color: #FED700;" text="back">
+                    <font>
+                        <Font name="Arial Rounded MT Bold" size="10.0" />
+                    </font>
+                </Button>
+            </children>
+        </AnchorPane>
+    </children>
+</HBox>
