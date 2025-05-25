@@ -13,7 +13,8 @@ module com.example.medisyncfrontend {
     requires com.example.medisyncbackend;
     requires org.apache.tomcat.embed.core;
     requires com.fasterxml.jackson.datatype.jsr310;
-    requires com.fasterxml.jackson.databind;    // import Patient, Doctor, …
+    requires com.fasterxml.jackson.databind;
+    requires java.desktop;    // import Patient, Doctor, …
 
     /* ── Packages opened for reflective access ──────────────── */
     // FXML loads controllers via reflection

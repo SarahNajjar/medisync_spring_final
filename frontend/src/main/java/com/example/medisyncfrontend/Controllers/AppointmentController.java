@@ -1,93 +1,202 @@
 package com.example.medisyncfrontend.Controllers;
 
-import com.example.medisyncbackend.Models.Appointment;
-import com.example.medisyncfrontend.Utils.ApiClient;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.medisyncfrontend.Utils.DBUtils;
+import com.example.medisyncfrontend.Utils.SessionManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleDoubleProperty;
+import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.io.IOException;
-import java.util.List;
+import java.net.URL;
+import java.sql.*;
+import java.time.LocalDate;
+import java.util.ResourceBundle;
 
-public class AppointmentController {
+public class AppointmentController implements Initializable {
 
-    @FXML
-    private TableView<Appointment> tableAppointments;
+    @FXML private TableView<Appointment> appointmentTable;
+    @FXML private TableColumn<Appointment, Integer> colId;
+    @FXML private TableColumn<Appointment, Integer> colPatientId;
+    @FXML private TableColumn<Appointment, Integer> colDoctorId;
+    @FXML private TableColumn<Appointment, Integer> colRoomId;
+    @FXML private TableColumn<Appointment, String> colDate;
+    @FXML private TableColumn<Appointment, String> colStatus;
+    @FXML private TableColumn<Appointment, Double> colBillingAmount;
+    @FXML private TableColumn<Appointment, String> colStatusUpdateDate;
+    @FXML private TableColumn<Appointment, String> colSecretary;
 
-    @FXML
-    private TableColumn<Appointment, Integer> colId;
+    @FXML private TextField tfPatientId, tfDoctorId, tfRoomId, tfBillingAmount;
+    @FXML private DatePicker dpAppointmentDate;
+    @FXML private ComboBox<String> cbStatus;
+    @FXML private Button btnAdd, btnUpdate, btnDelete;
 
-    @FXML
-    private TableColumn<Appointment, String> colDate;
+    private ObservableList<Appointment> appointments = FXCollections.observableArrayList();
 
-    @FXML
-    private TableColumn<Appointment, String> colStatus;
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colPatientId.setCellValueFactory(new PropertyValueFactory<>("patientId"));
+        colDoctorId.setCellValueFactory(new PropertyValueFactory<>("doctorId"));
+        colRoomId.setCellValueFactory(new PropertyValueFactory<>("roomId"));
+        colDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+        colBillingAmount.setCellValueFactory(new PropertyValueFactory<>("billingAmount"));
+        colStatusUpdateDate.setCellValueFactory(new PropertyValueFactory<>("statusUpdateDate"));
+        colSecretary.setCellValueFactory(new PropertyValueFactory<>("secretary"));
 
-    @FXML
-    private TableColumn<Appointment, Double> colBilling;
-
-    @FXML
-    private TableColumn<Appointment, String> colStatusDate;
-
-    @FXML
-    private TableColumn<Appointment, Integer> colPatientId;
-
-    @FXML
-    private TableColumn<Appointment, Integer> colDoctorId;
-
-    @FXML
-    private TableColumn<Appointment, Integer> colRoomId;
-
-    @FXML
-    private TableColumn<Appointment, String> colSecretary;
-
-    @FXML
-    private Button btnRefresh;
-
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
-    @FXML
-    public void initialize() {
-        colId.setCellValueFactory(cell -> new SimpleIntegerProperty(cell.getValue().getAppointmentId()).asObject());
-        colDate.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getAppointmentDate().toString()));
-        colStatus.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getStatus().toString()));
-        colBilling.setCellValueFactory(cell -> new SimpleDoubleProperty(cell.getValue().getBillingAmount()).asObject());
-        colStatusDate.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getStatusUpdateDate().toString()));
-        colPatientId.setCellValueFactory(cell -> new SimpleIntegerProperty(cell.getValue().getPatient().getPatientId()).asObject());
-        colDoctorId.setCellValueFactory(cell -> new SimpleIntegerProperty(cell.getValue().getDoctor().getDoctorId()).asObject());
-        colRoomId.setCellValueFactory(cell -> new SimpleIntegerProperty(cell.getValue().getRoom().getRoomId()).asObject());
-        colSecretary.setCellValueFactory(cell -> new SimpleStringProperty(cell.getValue().getSecretary().getUsername()));
+        cbStatus.setItems(FXCollections.observableArrayList("Scheduled", "Completed", "Cancelled"));
 
         loadAppointments();
+
+        appointmentTable.setOnMouseClicked(e -> {
+            Appointment a = appointmentTable.getSelectionModel().getSelectedItem();
+            if (a != null) {
+                tfPatientId.setText(String.valueOf(a.getPatientId()));
+                tfDoctorId.setText(String.valueOf(a.getDoctorId()));
+                tfRoomId.setText(String.valueOf(a.getRoomId()));
+                dpAppointmentDate.setValue(LocalDate.parse(a.getDate()));
+                cbStatus.setValue(a.getStatus());
+                tfBillingAmount.setText(String.valueOf(a.getBillingAmount()));
+            }
+        });
     }
 
     @FXML
-    void loadAppointments() {
-        String response = ApiClient.get("/api/appointments");
-        if (response != null) {
-            try {
-                List<Appointment> appointments = objectMapper.readValue(response, new TypeReference<>() {});
-                ObservableList<Appointment> data = FXCollections.observableArrayList(appointments);
-                tableAppointments.setItems(data);
-            } catch (IOException e) {
-                e.printStackTrace();
-                showError("Failed to parse appointment data.");
+    private void loadAppointments() {
+        appointments.clear();
+        try {
+            ResultSet rs = DBUtils.executeQuery("SELECT * FROM appointments");
+            while (rs.next()) {
+                appointments.add(new Appointment(
+                        rs.getInt("appointment_id"),
+                        rs.getInt("patient_id"),
+                        rs.getInt("doctor_id"),
+                        rs.getInt("room_id"),
+                        rs.getDate("appointment_date").toString(),
+                        rs.getString("status"),
+                        rs.getDouble("billing_amount"),
+                        rs.getDate("status_update_date").toString(),
+                        rs.getString("secretary_username")
+                ));
             }
-        } else {
-            showError("Failed to connect to backend.");
+            appointmentTable.setItems(appointments);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
-    private void showError(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setContentText(message);
-        alert.showAndWait();
+    @FXML
+    private void handleAdd() {
+        String sql = "INSERT INTO appointments (patient_id, doctor_id, room_id, appointment_date, status, billing_amount, status_update_date, secretary_username) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = DBUtils.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, Integer.parseInt(tfPatientId.getText()));
+            stmt.setInt(2, Integer.parseInt(tfDoctorId.getText()));
+            stmt.setInt(3, Integer.parseInt(tfRoomId.getText()));
+            stmt.setDate(4, Date.valueOf(dpAppointmentDate.getValue()));
+            stmt.setString(5, cbStatus.getValue());
+            stmt.setDouble(6, Double.parseDouble(tfBillingAmount.getText()));
+            stmt.setDate(7, new java.sql.Date(System.currentTimeMillis()));
+            stmt.setString(8, SessionManager.getLoggedInUser());
+
+            stmt.executeUpdate();
+
+            loadAppointments();
+            clearForm();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleUpdate() {
+        Appointment selected = appointmentTable.getSelectionModel().getSelectedItem();
+        if (selected == null) return;
+
+        String sql = "UPDATE appointments SET patient_id=?, doctor_id=?, room_id=?, appointment_date=?, status=?, billing_amount=? WHERE appointment_id=?";
+        try (Connection conn = DBUtils.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, Integer.parseInt(tfPatientId.getText()));
+            stmt.setInt(2, Integer.parseInt(tfDoctorId.getText()));
+            stmt.setInt(3, Integer.parseInt(tfRoomId.getText()));
+            stmt.setDate(4, Date.valueOf(dpAppointmentDate.getValue()));
+            stmt.setString(5, cbStatus.getValue());
+            stmt.setDouble(6, Double.parseDouble(tfBillingAmount.getText()));
+            stmt.setInt(7, selected.getId());
+            stmt.executeUpdate();
+            loadAppointments();
+            clearForm();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleDelete() {
+        Appointment selected = appointmentTable.getSelectionModel().getSelectedItem();
+        if (selected == null) return;
+
+        String sql = "DELETE FROM appointments WHERE appointment_id=?";
+        try (Connection conn = DBUtils.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, selected.getId());
+            stmt.executeUpdate();
+            loadAppointments();
+            clearForm();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleBack(ActionEvent event) {
+        DBUtils.changeScene(event, "/com/example/medisyncfrontend/dashboard.fxml", "Dashboard", null);
+    }
+
+    private void clearForm() {
+        tfPatientId.clear();
+        tfDoctorId.clear();
+        tfRoomId.clear();
+        dpAppointmentDate.setValue(null);
+        cbStatus.setValue(null);
+        tfBillingAmount.clear();
+    }
+
+    public static class Appointment {
+        private final int id;
+        private final int patientId;
+        private final int doctorId;
+        private final int roomId;
+        private final String date;
+        private final String status;
+        private final double billingAmount;
+        private final String statusUpdateDate;
+        private final String secretary;
+
+        public Appointment(int id, int patientId, int doctorId, int roomId, String date, String status, double billingAmount, String statusUpdateDate, String secretary) {
+            this.id = id;
+            this.patientId = patientId;
+            this.doctorId = doctorId;
+            this.roomId = roomId;
+            this.date = date;
+            this.status = status;
+            this.billingAmount = billingAmount;
+            this.statusUpdateDate = statusUpdateDate;
+            this.secretary = secretary;
+        }
+
+        public int getId() { return id; }
+        public int getPatientId() { return patientId; }
+        public int getDoctorId() { return doctorId; }
+        public int getRoomId() { return roomId; }
+        public String getDate() { return date; }
+        public String getStatus() { return status; }
+        public double getBillingAmount() { return billingAmount; }
+        public String getStatusUpdateDate() { return statusUpdateDate; }
+        public String getSecretary() { return secretary; }
     }
 }

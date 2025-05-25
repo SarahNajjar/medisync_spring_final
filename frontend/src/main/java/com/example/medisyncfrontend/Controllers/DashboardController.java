@@ -1,62 +1,48 @@
 package com.example.medisyncfrontend.Controllers;
 
-import com.example.medisyncfrontend.Utils.SceneSwitcher;
+import com.example.medisyncfrontend.Utils.DBUtils;
+import com.example.medisyncfrontend.Utils.SessionManager;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 
 public class DashboardController {
 
     @FXML
-    private Button btnPatients;
+    private Label lblWelcome;
 
-    @FXML
-    private Button btnDoctors;
-
-    @FXML
-    private Button btnAppointments;
-
-    @FXML
-    private Button btnRooms;
-
-    @FXML
-    private Button btnWithdrawals;
-
-    @FXML
-    private Button btnLogout;
-
-    @FXML
     public void initialize() {
-        // Optional: setup logic
+        lblWelcome.setText("Welcome, " + SessionManager.getLoggedInUser() + "!");
     }
 
     @FXML
-    void goToPatients() {
-        SceneSwitcher.switchTo("/com/example/medisyncfrontend/patients.fxml", "Patients");
-
+    private void openPatients(ActionEvent event) {
+        DBUtils.changeScene(event, "/com/example/medisyncfrontend/patients.fxml", "Patients", null);
     }
 
     @FXML
-    void goToDoctors() {
-        SceneSwitcher.switchTo("/com/example/medisyncfrontend/doctors.fxml", "Doctors");
+    private void openDoctors(ActionEvent event) {
+        DBUtils.changeScene(event, "/com/example/medisyncfrontend/doctors.fxml", "Doctors", null);
     }
 
     @FXML
-    void goToAppointments() {
-        SceneSwitcher.switchTo("/com/example/medisyncfrontend/appointments.fxml", "Appointments");
+    private void openRooms(ActionEvent event) {
+        DBUtils.changeScene(event, "/com/example/medisyncfrontend/rooms.fxml", "Rooms", null);
     }
 
     @FXML
-    void goToRooms() {
-        SceneSwitcher.switchTo("/com/example/medisyncfrontend/rooms.fxml", "Rooms");
+    private void openAppointments(ActionEvent event) {
+        DBUtils.changeScene(event, "/com/example/medisyncfrontend/appointments.fxml", "Appointments", null);
     }
 
     @FXML
-    void goToWithdrawals() {
-        SceneSwitcher.switchTo("/com/example/medisyncfrontend/withdrawals.fxml", "Withdrawals");
+    private void openWithdrawals(ActionEvent event) {
+        DBUtils.changeScene(event, "/com/example/medisyncfrontend/withdrawals.fxml", "Withdrawals", null);
     }
 
     @FXML
-    void logout() {
-        SceneSwitcher.switchTo("/com/example/medisyncfrontend/login.fxml", "Login");
+    private void logout(ActionEvent event) {
+        SessionManager.clearSession();
+        DBUtils.changeScene(event, "/com/example/medisyncfrontend/Login.fxml", "Login", null);
     }
 }

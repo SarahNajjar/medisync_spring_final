@@ -1,42 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
 
-<BorderPane xmlns="http://javafx.com/javafx"
+<BorderPane xmlns="http://javafx.com/javafx/17.0.2"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.medisyncfrontend.Controllers.AppointmentController">
 
+    <!-- ===== TOP ===== -->
     <top>
-        <Label text="Appointments"
-               style="-fx-font-size: 24px; -fx-font-weight: bold;"
-               BorderPane.alignment="CENTER"/>
+        <VBox spacing="10" style="-fx-padding: 15;">
+            <HBox spacing="10" alignment="CENTER_LEFT">
+                <Button fx:id="btnBack" text="⬅ Back" onAction="#handleBack"
+                        style="-fx-background-color: #64437C; -fx-text-fill: white;" />
+                <Label text="Appointment Management"
+                       style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+            </HBox>
+        </VBox>
     </top>
 
+    <!-- ===== CENTER TABLE ===== -->
     <center>
-        <TableView fx:id="tableAppointments" prefHeight="500" prefWidth="1000">
+        <TableView fx:id="appointmentTable" prefHeight="400" prefWidth="1100">
             <columns>
                 <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
-                <TableColumn fx:id="colDate" text="Date" prefWidth="120"/>
-                <TableColumn fx:id="colStatus" text="Status" prefWidth="100"/>
-                <TableColumn fx:id="colBilling" text="Billing" prefWidth="80"/>
-                <TableColumn fx:id="colStatusDate" text="Status Date" prefWidth="120"/>
-                <TableColumn fx:id="colPatientId" text="Patient ID" prefWidth="80"/>
-                <TableColumn fx:id="colDoctorId" text="Doctor ID" prefWidth="80"/>
-                <TableColumn fx:id="colRoomId" text="Room ID" prefWidth="80"/>
-                <TableColumn fx:id="colSecretary" text="Secretary" prefWidth="100"/>
+                <TableColumn fx:id="colPatientId" text="Patient ID" prefWidth="100"/>
+                <TableColumn fx:id="colDoctorId" text="Doctor ID" prefWidth="100"/>
+                <TableColumn fx:id="colRoomId" text="Room ID" prefWidth="100"/>
+                <TableColumn fx:id="colDate" text="Date" prefWidth="150"/>
+                <TableColumn fx:id="colStatus" text="Status" prefWidth="120"/>
+                <TableColumn fx:id="colBillingAmount" text="Billing Amount" prefWidth="100"/>
+                <TableColumn fx:id="colStatusUpdateDate" text="Status Update" prefWidth="120"/>
+                <TableColumn fx:id="colSecretary" text="Secretary" prefWidth="120"/>
             </columns>
         </TableView>
     </center>
 
+    <!-- ===== BOTTOM FORM + BUTTONS ===== -->
     <bottom>
-        <HBox alignment="CENTER" spacing="10">
-            <padding>
-                <Insets top="10" right="10" bottom="10" left="10"/>
-            </padding>
-            <Button fx:id="btnRefresh" text="Refresh" onAction="#loadAppointments"/>
-        </HBox>
+        <VBox spacing="10" style="-fx-padding: 15;">
+            <GridPane hgap="10" vgap="10">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="25"/>
+                    <ColumnConstraints percentWidth="25"/>
+                    <ColumnConstraints percentWidth="25"/>
+                    <ColumnConstraints percentWidth="25"/>
+                </columnConstraints>
+
+                <children>
+                    <Label text="Patient ID:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <TextField fx:id="tfPatientId" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                    <Label text="Doctor ID:" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                    <TextField fx:id="tfDoctorId" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+
+                    <Label text="Room ID:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <TextField fx:id="tfRoomId" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                    <Label text="Date:" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+                    <DatePicker fx:id="dpAppointmentDate" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+
+                    <Label text="Status:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <ComboBox fx:id="cbStatus" promptText="Select Status" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                    <Label text="Billing Amount:" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+                    <TextField fx:id="tfBillingAmount" GridPane.rowIndex="2" GridPane.columnIndex="3"/>
+                </children>
+            </GridPane>
+
+            <HBox spacing="10" alignment="CENTER">
+                <Button fx:id="btnAdd" text="➕ Add" onAction="#handleAdd"
+                        style="-fx-background-color: #188956; -fx-text-fill: white;" />
+                <Button fx:id="btnUpdate" text="✏️ Update" onAction="#handleUpdate"
+                        style="-fx-background-color: #336699; -fx-text-fill: white;" />
+                <Button fx:id="btnDelete" text="🗑️ Delete" onAction="#handleDelete"
+                        style="-fx-background-color: #cc0000; -fx-text-fill: white;" />
+                <Button fx:id="btnRefresh" text="🔄 Refresh" onAction="#loadAppointments"
+                        style="-fx-background-color: #777; -fx-text-fill: white;" />
+            </HBox>
+        </VBox>
     </bottom>
 
 </BorderPane>

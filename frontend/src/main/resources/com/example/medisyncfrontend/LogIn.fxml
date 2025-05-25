@@ -39,7 +39,7 @@
                <Label text="Password:">
                   <font><Font size="15.0" /></font>
                </Label>
-               <PasswordField fx:id="tfPassword" prefHeight="26.0" prefWidth="180.0" />
+               <PasswordField fx:id="pfPassword" prefHeight="26.0" prefWidth="180.0" />
             </HBox>
          </children>
       </VBox>

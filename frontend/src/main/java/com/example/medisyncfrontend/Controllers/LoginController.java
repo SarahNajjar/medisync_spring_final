@@ -1,7 +1,6 @@
 package com.example.medisyncfrontend.Controllers;
 
-import com.example.medisyncfrontend.Utils.ApiClient;
-import com.example.medisyncfrontend.Utils.SceneSwitcher;
+import com.example.medisyncfrontend.Utils.DBUtils;
 import com.example.medisyncfrontend.Utils.SessionManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,8 +8,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class LoginController {
 
@@ -18,38 +19,33 @@ public class LoginController {
     private TextField tfUsername;
 
     @FXML
-    private PasswordField tfPassword;
+    private PasswordField pfPassword;
 
     @FXML
-    void handleLogin(ActionEvent event) {
-        String username = tfUsername.getText().trim();
-        String password = tfPassword.getText().trim();
+    private void handleLogin(ActionEvent event) {
+        String username = tfUsername.getText();
+        String password = pfPassword.getText();
 
-        if (username.isEmpty() || password.isEmpty()) {
-            showAlert("Error", "Please fill in both fields.");
-            return;
+        String sql = "SELECT * FROM secretaries WHERE username=? AND password=?";
+        try (Connection conn = DBUtils.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                SessionManager.setLoggedInUser(username);
+                DBUtils.changeScene(event, "/com/example/medisyncfrontend/dashboard.fxml", "Welcome", username);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Login Failed");
+                alert.setContentText("Invalid username or password");
+                alert.show();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        // Prepare request body
-        Map<String, String> body = new HashMap<>();
-        body.put("username", username);
-        body.put("password", password);
-
-        // Make POST request
-        boolean success = ApiClient.postLogin("/api/secretaries/login", body);
-
-        if (success) {
-            SessionManager.setLoggedInUser(username);
-            SceneSwitcher.switchTo("/com/example/medisyncfrontend/dashboard.fxml", "Dashboard");
-        } else {
-            showAlert("Login Failed", "Incorrect username or password.");
-        }
-    }
-
-    private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setContentText(content);
-        alert.showAndWait();
     }
 }

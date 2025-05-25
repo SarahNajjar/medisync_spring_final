@@ -8,12 +8,15 @@
 <VBox xmlns="http://javafx.com/javafx/17.0.12"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="com.example.medisyncfrontend.Controllers.WithdrawalController"
-      prefHeight="500.0" prefWidth="700.0" spacing="0">
+      prefHeight="600.0" prefWidth="750.0" spacing="0">
 
-    <!-- Top Header -->
+    <!-- Header with Back Button -->
     <AnchorPane prefHeight="60.0" style="-fx-background-color: #64437C;">
         <children>
-            <Label text="MediSync" layoutX="20.0" layoutY="15.0" textFill="white">
+            <Button fx:id="btnBack" text="⬅ Back" layoutX="10.0" layoutY="15.0"
+                    onAction="#handleBack"
+                    style="-fx-background-color: #ffffff; -fx-text-fill: #64437C; -fx-font-weight: bold;" />
+            <Label text="MediSync" layoutX="90.0" layoutY="15.0" textFill="white">
                 <font>
                     <Font name="Cambria Bold" size="28.0"/>
                 </font>
@@ -22,7 +25,7 @@
     </AnchorPane>
 
     <!-- Main Card Layout -->
-    <VBox alignment="TOP_CENTER" spacing="10"
+    <VBox alignment="TOP_CENTER" spacing="15"
           style="-fx-background-color: #f9f9f9; -fx-border-color: #cccccc; -fx-border-width: 1;">
         <padding>
             <Insets top="20" right="20" bottom="20" left="20"/>
@@ -30,22 +33,52 @@
 
         <Label text="Withdrawals" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
 
-        <TableView fx:id="tableWithdrawals" prefHeight="350.0" prefWidth="650.0">
+        <!-- Table -->
+        <TableView fx:id="withdrawalTable" prefHeight="300.0" prefWidth="700.0">
             <columns>
                 <TableColumn fx:id="colId" text="ID" prefWidth="60"/>
-                <TableColumn fx:id="colDate" text="Date" prefWidth="150"/>
+                <TableColumn fx:id="colDate" text="Date" prefWidth="140"/>
                 <TableColumn fx:id="colAmount" text="Amount" prefWidth="100"/>
                 <TableColumn fx:id="colDoctorId" text="Doctor ID" prefWidth="100"/>
                 <TableColumn fx:id="colSecretary" text="Secretary" prefWidth="120"/>
             </columns>
         </TableView>
 
-        <HBox alignment="CENTER_RIGHT" prefWidth="650.0">
-            <Button fx:id="btnRefresh"
-                    text="Refresh"
-                    onAction="#loadWithdrawals"
-                    style="-fx-background-color: #64437C; -fx-text-fill: white; -fx-font-weight: bold;"
-                    prefWidth="100"/>
+        <!-- Form Fields -->
+        <GridPane hgap="10" vgap="10">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="25"/>
+                <ColumnConstraints percentWidth="25"/>
+                <ColumnConstraints percentWidth="25"/>
+                <ColumnConstraints percentWidth="25"/>
+            </columnConstraints>
+
+            <children>
+                <Label text="Doctor ID:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                <TextField fx:id="tfDoctorId" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                <Label text="Amount:" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                <TextField fx:id="tfAmount" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+
+                <Label text="Secretary:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                <ComboBox fx:id="cbSecretary" promptText="Select Secretary"
+                          GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                <Label text="Date:" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+                <DatePicker fx:id="dpWithdrawalDate" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+            </children>
+        </GridPane>
+
+        <!-- Buttons -->
+        <HBox alignment="CENTER" spacing="10">
+            <Button fx:id="btnAdd" text="➕ Add" onAction="#handleAdd"
+                    style="-fx-background-color: #188956; -fx-text-fill: white;" />
+            <Button fx:id="btnUpdate" text="✏️ Update" onAction="#handleUpdate"
+                    style="-fx-background-color: #336699; -fx-text-fill: white;" />
+            <Button fx:id="btnDelete" text="🗑️ Delete" onAction="#handleDelete"
+                    style="-fx-background-color: #cc0000; -fx-text-fill: white;" />
+            <Button fx:id="btnRefresh" text="🔄 Refresh" onAction="#loadWithdrawals"
+                    style="-fx-background-color: #777; -fx-text-fill: white;" />
         </HBox>
     </VBox>
 </VBox>

@@ -6,13 +6,13 @@ package com.example.medisyncfrontend.Utils;
  */
 public final class SessionManager {
 
-    // ---------- stored values ----------
-    private static String  loggedInUsername;
-    private static Integer loggedInUserId;   // <-- new
+    private static String loggedInUsername;
+    private static Integer loggedInUserId;
 
-    private SessionManager() { }             // utility-class: no instances
+    private SessionManager() {
+        // Prevent instantiation
+    }
 
-    // ---------- username ----------
     public static void setLoggedInUser(String username) {
         SessionManager.loggedInUsername = username;
     }
@@ -21,7 +21,6 @@ public final class SessionManager {
         return loggedInUsername;
     }
 
-    // ---------- user-id (new) ----------
     public static void setLoggedInUserId(int id) {
         SessionManager.loggedInUserId = id;
     }
@@ -30,9 +29,10 @@ public final class SessionManager {
         return loggedInUserId;
     }
 
-    // ---------- housekeeping ----------
     public static void clearSession() {
         loggedInUsername = null;
-        loggedInUserId   = null;
+        loggedInUserId = null;
     }
+
+
 }
