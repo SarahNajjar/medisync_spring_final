@@ -15,11 +15,14 @@
 
     <!-- Top Header -->
     <top>
-        <HBox alignment="CENTER_LEFT" spacing="10" padding="10" style="-fx-background-color: #64437C;">
+        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-background-color: #64437C;">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
             <children>
                 <ImageView fitHeight="32" fitWidth="32">
                     <image>
-                        <Image url="@clinic-icon.png" />
+                        <Image url="@home.png" />
                     </image>
                 </ImageView>
                 <Label text="MediSync Dashboard" textFill="WHITE">
@@ -33,7 +36,10 @@
 
     <!-- Center Grid of Module Buttons -->
     <center>
-        <GridPane alignment="CENTER" hgap="30" vgap="30" padding="20">
+        <GridPane alignment="CENTER" hgap="30" vgap="30">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
             <children>
                 <Button fx:id="btnPatients" text="Patients" onAction="#goToPatients"
                         style="-fx-background-color: #188956; -fx-text-fill: white;" prefWidth="180" prefHeight="40" />

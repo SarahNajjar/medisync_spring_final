@@ -40,7 +40,7 @@ public class LoginController {
 
         if (success) {
             SessionManager.setLoggedInUser(username);
-            SceneSwitcher.switchTo("/fxml/dashboard.fxml", "Dashboard");
+            SceneSwitcher.switchTo("/com/example/medisyncfrontend/dashboard.fxml", "Dashboard");
         } else {
             showAlert("Login Failed", "Incorrect username or password.");
         }
