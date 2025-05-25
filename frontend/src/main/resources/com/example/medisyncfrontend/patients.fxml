@@ -11,8 +11,12 @@
 
     <top>
         <Label text="Patient List"
-               style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-padding: 20;"
-               BorderPane.alignment="CENTER"/>
+               style="-fx-font-size: 24px; -fx-font-weight: bold;"
+               BorderPane.alignment="CENTER">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+        </Label>
     </top>
 
     <center>
@@ -28,8 +32,12 @@
     </center>
 
     <bottom>
-        <HBox spacing="10" padding="10" alignment="CENTER">
-            <Button fx:id="btnRefresh" text="🔄 Refresh" onAction="#loadPatients" style="-fx-background-color: #64437C; -fx-text-fill: white;"/>
+        <HBox spacing="10" alignment="CENTER">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Button fx:id="btnRefresh" text="🔄 Refresh" onAction="#loadPatients"
+                    style="-fx-background-color: #64437C; -fx-text-fill: white;"/>
         </HBox>
     </bottom>
 

@@ -3,6 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
 
 <VBox xmlns="http://javafx.com/javafx/17.0.12"
       xmlns:fx="http://javafx.com/fxml/1"
@@ -21,8 +22,11 @@
     </AnchorPane>
 
     <!-- Main Card Layout -->
-    <VBox alignment="TOP_CENTER" spacing="10" padding="20"
+    <VBox alignment="TOP_CENTER" spacing="10"
           style="-fx-background-color: #f9f9f9; -fx-border-color: #cccccc; -fx-border-width: 1;">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
 
         <Label text="Withdrawals" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
 

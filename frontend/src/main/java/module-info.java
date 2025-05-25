@@ -6,12 +6,14 @@ module com.example.medisyncfrontend {
 
     /* ── Networking / JSON ──────────────────────────────────── */
     requires java.net.http;                 // ApiClient uses HttpClient
-    requires com.fasterxml.jackson.databind; // ObjectMapper in controllers
+    // ObjectMapper in controllers
     requires com.google.gson;                // if you still need it anywhere
 
     /* ── Your back-end’s model module ───────────────────────── */
     requires com.example.medisyncbackend;
-    requires org.apache.tomcat.embed.core;    // import Patient, Doctor, …
+    requires org.apache.tomcat.embed.core;
+    requires com.fasterxml.jackson.datatype.jsr310;
+    requires com.fasterxml.jackson.databind;    // import Patient, Doctor, …
 
     /* ── Packages opened for reflective access ──────────────── */
     // FXML loads controllers via reflection
