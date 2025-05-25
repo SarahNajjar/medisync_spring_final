@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.medisyncfrontend.Controllers.RoomController"
+            prefWidth="800" prefHeight="600">
+
+    <!-- ========================= TOP ========================= -->
+    <top>
+        <Label text="Room Management"
+               style="-fx-font-size: 24px;"
+               BorderPane.alignment="CENTER">
+            <!-- ✅ object-tag padding -->
+            <BorderPane.margin>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </BorderPane.margin>
+        </Label>
+    </top>
+
+    <!-- ======================= CENTER ======================== -->
+    <center>
+        <TableView fx:id="tableRooms" prefWidth="600" prefHeight="400">
+            <columns>
+                <TableColumn fx:id="colId"     text="Room ID"  prefWidth="120"/>
+                <TableColumn fx:id="colName"   text="Name"     prefWidth="220"/>
+                <TableColumn fx:id="colType"   text="Type"     prefWidth="160"/>
+                <TableColumn fx:id="colStatus" text="Status"   prefWidth="100"/>
+            </columns>
+        </TableView>
+    </center>
+
+    <!-- ====================== BOTTOM ========================= -->
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+
+            <Button fx:id="addButton"
+                    text="➕ Add Room"
+                    onAction="#handleAddRoom"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>

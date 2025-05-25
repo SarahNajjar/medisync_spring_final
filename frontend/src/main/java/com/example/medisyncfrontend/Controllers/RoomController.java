@@ -62,6 +62,16 @@ public class RoomController {
         }
     }
 
+    @FXML
+    private void handleAddRoom() {
+        // For now, just show a popup
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Add Room");
+        alert.setHeaderText(null);
+        alert.setContentText("Add Room button clicked!");
+        alert.showAndWait();
+    }
+
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");

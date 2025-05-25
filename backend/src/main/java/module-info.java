@@ -12,6 +12,7 @@ module com.example.medisyncbackend {
     requires java.sql;
     requires org.hibernate.orm.core;
     requires javafx.base;
+    requires com.fasterxml.jackson.annotation;
 
     /* ----- packages Spring must reflect on ----- */
     opens com.example.medisyncbackend;               // main class

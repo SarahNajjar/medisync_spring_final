@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.medisyncfrontend.Controllers.AppointmentController">
+
+    <top>
+        <Label text="Appointments"
+               style="-fx-font-size: 24px; -fx-font-weight: bold;"
+               BorderPane.alignment="CENTER"/>
+    </top>
+
+    <center>
+        <TableView fx:id="tableAppointments" prefHeight="500" prefWidth="1000">
+            <columns>
+                <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
+                <TableColumn fx:id="colDate" text="Date" prefWidth="120"/>
+                <TableColumn fx:id="colStatus" text="Status" prefWidth="100"/>
+                <TableColumn fx:id="colBilling" text="Billing" prefWidth="80"/>
+                <TableColumn fx:id="colStatusDate" text="Status Date" prefWidth="120"/>
+                <TableColumn fx:id="colPatientId" text="Patient ID" prefWidth="80"/>
+                <TableColumn fx:id="colDoctorId" text="Doctor ID" prefWidth="80"/>
+                <TableColumn fx:id="colRoomId" text="Room ID" prefWidth="80"/>
+                <TableColumn fx:id="colSecretary" text="Secretary" prefWidth="100"/>
+            </columns>
+        </TableView>
+    </center>
+
+    <bottom>
+        <HBox alignment="CENTER" spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+            <Button fx:id="btnRefresh" text="Refresh" onAction="#loadAppointments"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
