@@ -27,12 +27,23 @@ public class DoctorController {
 
     @FXML
     public void initialize() {
-        colId.setCellValueFactory(cell -> new javafx.beans.property.SimpleIntegerProperty().asObject());
-        colFirstName.setCellValueFactory(cell -> new javafx.beans.property.SimpleStringProperty(cell.getValue().getFirstName()));
-        colLastName.setCellValueFactory(cell -> new javafx.beans.property.SimpleStringProperty(cell.getValue().getLastName()));
-        colSpecialization.setCellValueFactory(cell -> new javafx.beans.property.SimpleStringProperty(cell.getValue().getSpecialization()));
-        colPhone.setCellValueFactory(cell -> new javafx.beans.property.SimpleStringProperty(cell.getValue().getContactNumber()));
-        colId.setCellValueFactory(cell -> new javafx.beans.property.SimpleIntegerProperty().asObject());
+        colId.setCellValueFactory(cell ->
+                new javafx.beans.property.ReadOnlyObjectWrapper<>(cell.getValue().getDoctorId()));
+
+        colFirstName.setCellValueFactory(cell ->
+                new javafx.beans.property.SimpleStringProperty(cell.getValue().getFirstName()));
+
+        colLastName.setCellValueFactory(cell ->
+                new javafx.beans.property.SimpleStringProperty(cell.getValue().getLastName()));
+
+        colSpecialization.setCellValueFactory(cell ->
+                new javafx.beans.property.SimpleStringProperty(cell.getValue().getSpecialization()));
+
+        colPhone.setCellValueFactory(cell ->
+                new javafx.beans.property.SimpleStringProperty(cell.getValue().getContactNumber()));
+
+        colPercentage.setCellValueFactory(cell ->
+                new javafx.beans.property.ReadOnlyObjectWrapper<>(cell.getValue().getPercentage()));
 
         loadDoctors();
     }
